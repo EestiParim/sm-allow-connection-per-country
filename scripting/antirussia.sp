@@ -1,7 +1,7 @@
 /*
  * MIT License
  * 
- * Copyright (c) 2022 nof
+ * Copyright (c) 2022 nofxD
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#pragma newdecls required
 #pragma semicolon 1
+#pragma newdecls required
 
 #include <sourcemod>
 #include <geoip>
-
-ConVar g_Message;
 
 public Plugin myinfo =
 {
@@ -35,29 +33,27 @@ public Plugin myinfo =
     author = "nof",
     description = "Blocks all connections from Russia and Belarus.",
     version = "1.2",
-    url = "https://steamcommunity.com/id/nofxD"
+    url = "https://github.com/nofxD"
 };
 
 public void OnPluginStart()
 {
-    g_Message = CreateConVar("antirussia_message", "Your country has invaded Ukraine.\nYou are not allowed to join this server before war ends.", "Kick message");
-    AutoExecConfig(true, "antirussia");
+    LoadTranslations("antirussia.phrases");
 }
 
 public bool OnClientConnect(int client, char[] rejectmsg, int maxlen)
 {
     char ip[15];
     char country[45];
-    char message[512];
+    char buffer[200];
 
     GetClientIP(client, ip, sizeof(ip));
     GeoipCountry(ip, country, sizeof(country));
-    
-    g_Message.GetString(message, sizeof(message));
+    Format(buffer, sizeof(buffer), "%t", "Kick message");
     
     if (StrEqual("Russian Federation", country) || StrEqual("Belarus", country))
     {
-        strcopy(rejectmsg, maxlen, message);
+        strcopy(rejectmsg, maxlen, buffer);
         return false;
     }
     return true;

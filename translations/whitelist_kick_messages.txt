@@ -1,0 +1,7 @@
+"Phrases"
+{
+    "Kick message"
+    {
+        "en"    "Connections from your country is not allowed in this server."
+    }
+}

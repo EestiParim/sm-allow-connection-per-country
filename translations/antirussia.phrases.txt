@@ -1,7 +1,0 @@
-"Phrases"
-{
-    "Kick message"
-    {
-        "en"    "Your country has invaded Ukraine. You are not allowed to join this server before war ends."
-    }
-}
